@@ -1,0 +1,16 @@
+---
+
+- hosts: all
+  gather_facts: False
+  vars_files:
+    - vars/etcd_host.yml
+  vars_prompt:
+    - name: "my_labels"
+      prompt: "Type labels you want to make, separate by comma"
+      private: no
+  tasks:
+    - name: make some labels
+      local_action: etcd_record etcd_host={{etcd_host}} port={{ etcd_port }} name=labels value={{ item.strip() }} host={{inventory_hostname}}
+      with_items: my_labels.split(',')
+      when: item|trim != ''
+      sudo: False

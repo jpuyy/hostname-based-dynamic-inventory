@@ -1,0 +1,7 @@
+- local_action: debug var=hostname
+  when: hostname is defined
+  tags: hostname
+
+- local_action: debug var=labels
+  when: labels is defined
+  tags: labels

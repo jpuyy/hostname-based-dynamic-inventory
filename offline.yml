@@ -1,0 +1,9 @@
+---
+
+- name: delete data from etcd
+  hosts: all
+  gather_facts: False
+  vars_files:
+    - vars/etcd_host.yml
+  roles:
+    - offline

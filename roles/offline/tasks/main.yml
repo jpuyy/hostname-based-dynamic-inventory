@@ -1,0 +1,3 @@
+- name: delete corresponding hostvars/ip
+  local_action: etcd_record etcd_host={{ etcd_host }} port={{ etcd_port }} name= host={{ inventory_hostname }} state=absent
+  sudo: False

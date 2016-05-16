@@ -1,0 +1,8 @@
+---
+
+- name: record infomation to etcd
+  hosts: all
+  vars_files:
+    - vars/etcd_host.yml
+  roles:
+    - record

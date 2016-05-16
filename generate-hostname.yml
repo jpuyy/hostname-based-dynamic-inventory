@@ -1,0 +1,35 @@
+---
+
+- hosts: all
+  gather_facts: False
+
+  vars_files:
+    - vars/etcd_host.yml
+
+  vars_prompt:
+    - name: "project"
+      prompt: "project name"
+      private: no
+    - name: "function"
+      prompt: "function,module or software of this project"
+      private: no
+    - name: "env"
+      prompt: "TYPE ENV: \n
+        dev - Development \n
+        tst - Testing \n
+        stg - Staging \n
+        gray - gray \n
+        prd - Production\n"
+      private: no
+      default: "prd"
+
+  tasks:
+    - local_action: set_fact new_hostname="{{ project }}-{{ function }}-{{ inventory_hostname.split('.')[2] }}-{{ inventory_hostname.split('.')[3] }}-{{ env }}"
+    - local_action: debug var=new_hostname
+    - name: update hostname to etcd
+      local_action: etcd_record etcd_host={{ etcd_host }} port={{ etcd_port }} host={{ inventory_hostname }} name='hostname' value={{ new_hostname }}
+      sudo: False
+    - name: change hostname
+      hostname: name={{ new_hostname }}
+    - name: restart rsyslog
+      service: name=rsyslog state=restarted

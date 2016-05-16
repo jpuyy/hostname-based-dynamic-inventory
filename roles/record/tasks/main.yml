@@ -1,0 +1,8 @@
+- local_action: etcd_record etcd_host={{ etcd_host }} port={{ etcd_port }} host={{ inventory_hostname}} name='hostname' value={{ ansible_nodename }}
+  when: ansible_nodename is defined and ansible_nodename != 'localhost'
+  sudo: False
+  ignore_errors: True
+
+- name: record distribution version
+  local_action: etcd_record etcd_host={{etcd_host}} port={{ etcd_port }} name=labels value="{{ ansible_distribution | lower }}{{ ansible_distribution_major_version }}" host={{inventory_hostname}}
+  sudo: False

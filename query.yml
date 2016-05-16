@@ -1,0 +1,7 @@
+---
+
+- name: query by ip from etcd
+  hosts: all
+  gather_facts: False
+  roles:
+    - query

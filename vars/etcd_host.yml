@@ -1,0 +1,2 @@
+etcd_host: 'etcd.hupu.io'
+etcd_port: 4001
